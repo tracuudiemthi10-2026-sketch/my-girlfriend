@@ -101,11 +101,13 @@
     <div id="chat-box"></div>
     
     <footer>
+        <!-- Nút Camera góc dưới bên trái màn hình -->
         <button class="cam-btn" onclick="openCameraModal()">📷</button>
         <input type="text" id="msg-input" placeholder="nhắn gì đi hoặc hỏi bài tập nè...">
         <button id="send-btn" onclick="sendMessage()">gửi</button>
     </footer>
 
+    <!-- GIAO DIỆN CAMERA CHỤP ẢNH -->
     <div id="camera-modal">
         <video id="webcam" autoplay playsinline></video>
         <div class="cam-controls">
@@ -114,6 +116,7 @@
         </div>
     </div>
 
+    <!-- GIAO DIỆN CALL VIDEO -->
     <div id="video-call-screen">
         <div class="status-listening" id="listen-tag">• Đang nghe mày nói...</div>
         <div class="avatar-container">
@@ -145,7 +148,7 @@
             ],
             hon: [
                 "mày cứ lo cho người ta đi để ý gì đến tao nữa đâu",
-                "ủa ? ai lmj đâu mà nhắn tin bạ bậy bạ bạ",
+                "ủa ? ai lmj đâu mà nhắn tin bạ bậy bạ bậy",
                 "dỗi ! dỗi thật rồi đấy chả thèm nói nữa đâu",
                 "tao đang dỗi mệt mỏi thế này mà mày cứ dửng dưng như không ý nhỉ ??",
                 "đừng nchuyen với t nx mệt mỏi vcl"
@@ -190,17 +193,17 @@
                 return "Konnichiwa! Tao hiểu hết tiếng Nhật luôn nè, cơ mà thôi nhắn tiếng Việt đi cho nó gần gũi thân thương nha ^^";
             }
 
-            // 2. Kiểm tra câu hỏi bài tập các môn học
-            if (t.includes("toán") || t.includes("phương trình") || t.includes("tính x") || t.includes("hình học")) {
+            // 2. Kiểm tra câu hỏi bài tập các môn học từ lớp 6 đến lớp 12
+            if (t.includes("toán") || t.includes("phương trình") || t.includes("tính x") || t.includes("hình học") || t.includes("đại số")) {
                 return "Bài Toán này dễ vcl luôn ý! Đợi tao quét lý thuyết tí nhé: Áp dụng công thức giải nhanh hoặc định lý cơ bản lớp mày đang học là ra luôn kết quả chuẩn đét rồi đấy. Nhìn tao thông minh chưa =))";
             }
-            if (t.includes("hóa") || t.includes("phản ứng") || t.includes("axit") || t.includes("h2so4") || t.includes("mol")) {
+            if (t.includes("hóa") || t.includes("phản ứng") || t.includes("axit") || t.includes("h2so4") || t.includes("mol") || t.includes("hóa học")) {
                 return "Môn Hóa học từ lớp 8 đến lớp 12 tao cân hết nhé! Cân bằng phương trình này chỉ cần đếm số nguyên tử vế trái bằng vế phải là xong, súc tích chưa ^^";
             }
-            if (t.includes("sinh") || t.includes("adn") || t.includes("tế bào") || t.includes("nguyên phân")) {
+            if (t.includes("sinh") || t.includes("adn") || t.includes("tế bào") || t.includes("nguyên phân") || t.includes("sinh học")) {
                 return "Về Sinh học nhé: Quá trình nhân đôi ADN hay phân bào đều diễn ra theo nguyên tắc bổ sung A-T, G-X cực chuẩn. Cần tao giải chi tiết sơ đồ không đấy ?";
             }
-            if (t.includes("văn") || t.includes("phân tích") || t.includes("bài thơ") || t.includes("tác giả")) {
+            if (t.includes("văn") || t.includes("phân tích") || t.includes("bài thơ") || t.includes("tác giả") || t.includes("ngữ văn")) {
                 return "Văn học nghệ thuật là ánh trăng lừa dối chứ tao không lừa mày đâu! Bài này phân tích luận điểm cốt lõi, nêu bật giá trị nhân đạo và nghệ thuật đặc sắc là ăn trọn điểm thầy cô rồi nhé ^^";
             }
             if (t.includes("sử") || t.includes("lịch sử") || t.includes("năm bao nhiêu") || t.includes("chiến dịch")) {
@@ -209,11 +212,11 @@
             if (t.includes("địa") || t.includes("địa lý") || t.includes("khí hậu") || t.includes("kinh độ")) {
                 return "Địa lý tự nhiên và kinh tế tao nắm rõ trong lòng bàn tay! Đặc điểm khí hậu nhiệt đới gió mùa hay địa hình phân hóa này tạo điều kiện cực tốt cho phát triển kinh tế luôn đấy nha.";
             }
-            if (t.includes("tiếng anh") || t.includes("thì hiện tại") || t.includes("grammar") || t.includes("verb")) {
+            if (t.includes("tiếng anh") || t.includes("thì hiện tại") || t.includes("grammar") || t.includes("verb") || t.includes("tiếng anh")) {
                 return "Grammar Tiếng Anh từ cơ bản đến nâng cao siêu dễ! Cấu trúc câu này chỉ cần chia đúng động từ theo chủ ngữ và dấu hiệu nhận biết thời gian là ăn điểm tuyệt đối luôn nha ^^";
             }
             
-            return null; // Không phải câu hỏi bài tập thì chuyển qua hội thoại cảm xúc bình thường
+            return null;
         }
 
         function closePopup() {
@@ -233,7 +236,6 @@
             const msgDiv = document.createElement('div');
             msgDiv.className = `message ${side}`;
             
-            // Nếu text chứa link ảnh base64 (chụp ảnh)
             if (text.startsWith("data:image")) {
                 const img = document.createElement('img');
                 img.src = text;
@@ -269,7 +271,6 @@
         }
 
         function processAIResponse(userInputText) {
-            // Kiểm tra giải bài tập hoặc ngôn ngữ trước
             let academicReply = checkAcademicOrLanguage(userInputText);
             if (academicReply) {
                 updateEmotionUI("đang thông thái");
@@ -295,7 +296,4 @@
             else if (lovePoints > 10 && lovePoints <= 20) { pool = phrases.hon; currentStatus = "hờn trách"; }
             else if (lovePoints > 20 && lovePoints <= 35) { pool = phrases.ghen; currentStatus = "ghen tuông"; }
             else if (lovePoints >= 75) { pool = phrases.yeuThuong; currentStatus = "hạnh phúc"; }
-            
-            if (isGoingOut) pool = phrases.ngoanNoan;
-
-            updateEmotionUI
+       
