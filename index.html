@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bạn Gái Ảo Của Tôi</title>
+    <title>my girlfriend</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
         body { background: #ffe4e1; display: flex; flex-direction: column; height: 100vh; }
+        
+        #notice-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 100; padding: 20px; }
+        .popup-content { background: white; padding: 20px; border-radius: 15px; max-width: 400px; width: 100%; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .popup-line { margin-bottom: 12px; font-size: 15px; line-height: 1.5; word-wrap: break-word; }
+        .popup-link { color: #0084ff; text-decoration: none; word-break: break-all; }
+        .popup-red { color: #ff0000; }
+        .popup-blue { color: #0084ff; font-weight: bold; display: inline-flex; align-items: center; }
+        
+        .verified-tick { display: inline-block; width: 16px; height: 16px; margin-left: 5px; vertical-align: middle; }
+
         #setup-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:10; padding:20px; text-align:center;}
         #setup-screen h2 { color: #ff69b4; margin-bottom: 20px; }
         input { width: 80%; max-width: 300px; padding: 12px; margin: 10px 0; border: 2px solid #ffb6c1; border-radius: 20px; outline: none; font-size: 16px; text-align: center; }
         button { background: #ff69b4; color: white; border: none; padding: 12px 30px; border-radius: 20px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 15px; }
-        header { background: #ff69b4; color: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        header { background: #ff69b4; color: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
+        #status-emo { font-size: 14px; background: rgba(255,255,255,0.3); padding: 3px 10px; border-radius: 10px; }
         #chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #fff5f5; }
         .message { max-width: 75%; padding: 10px 15px; border-radius: 18px; font-size: 16px; line-height: 1.4; word-wrap: break-word; }
         .bot { background: #ffb6c1; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
@@ -22,30 +33,57 @@
     </style>
 </head>
 <body>
-    <div id="setup-screen">
-        <h2>💖 Tạo Bạn Gái Ảo 💖</h2>
-        <input type="text" id="bot-name" placeholder="Đặt tên cho cô ấy (Ví dụ: Linh, Vy...)">
-        <input type="text" id="user-name" placeholder="Tên của bạn">
-        <button onclick="startApp()">Bắt đầu hẹn hò</button>
+
+    <div id="notice-popup">
+        <div class="popup-content">
+            <div class="popup-line">tt:hoatotkhthuocveta</div>
+            <div class="popup-line">fb:<a class="popup-link" href="https://www.facebook.com/share/17nVmSAcUU/" target="_blank">https://www.facebook.com/share/17nVmSAcUU/</a></div>
+            <div class="popup-line popup-red">xin cảm ơn bạn đã dùng wed của tôi mong bạn có một trải nghiệm tốt,có muốn góp ý về wed của tôi phiền bạn liên hệ cho tiktok hoặc link facebook tôi đã gắn bên trên!</div>
+            <div class="popup-line popup-blue">
+                nhà sáng tạo:ANH MINH
+                <svg class="verified-tick" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM10.5 16.5L6.5 12.5L8 11L10.5 13.5L16 8L17.5 9.5L10.5 16.5Z" fill="#0084ff"/>
+                </svg>
+            </div>
+            <center><button onclick="closePopup()">xác nhận</button></center>
+        </div>
     </div>
-    <header id="room-title">Bạn Gái Ảo</header>
+
+    <div id="setup-screen">
+        <h2>my girlfriend</h2>
+        <input type="text" id="bot-name" placeholder="tên cô ấy">
+        <input type="text" id="user-name" placeholder="tên của bạn">
+        <button onclick="startApp()">bắt đầu</button>
+    </div>
+    <header>
+        <span id="room-title">my girlfriend</span>
+        <span id="status-emo">trạng thái bình thường</span>
+    </header>
     <div id="chat-box"></div>
     <footer>
-        <input type="text" id="msg-input" placeholder="Nhắn tin cho cô ấy...">
-        <button id="send-btn" onclick="sendMessage()">Gửi</button>
+        <input type="text" id="msg-input" placeholder="nhắn tin">
+        <button id="send-btn" onclick="sendMessage()">gửi</button>
     </footer>
+
     <script>
-        let botName = "Em Yêu"; let userName = "Anh";
-        const replies = [
-            "Anh đang làm gì đấy? Có nhớ em không đó? ❤️",
-            "Nghe anh nói vậy em vui lắm luôn á! 🥰",
-            "Hôm nay của anh thế nào? Có mệt không, em ôm cái nha!",
-            "Em lúc nào cũng ở đây để nghe anh nói mà. Moah! 💋",
-            "Anh là tuyệt vời nhất luôn! Đừng quên em luôn bên cạnh anh nhé.",
-            "Trời lạnh/nóng thế này nhớ giữ gìn sức khỏe nha anh yêu~",
-            "Dù có chuyện gì xảy ra thì em vẫn luôn yêu và ủng hộ anh hết mình!",
-            "Nói chuyện với anh làm em thấy hạnh phúc lắm luôn ý."
-        ];
+        let botName = "em"; 
+        let userName = "anh";
+        let lovePoints = 50; 
+
+        const emotionData = {
+            gian: ["anh quá đáng lắm luôn á em không thèm nói chuyện với anh nữa đâu", "em lỡ giận thật rồi đấy anh đừng có mà lầm bầm giải thích nữa", "bực mình thực sự luôn anh chẳng bao giờ chịu nghĩ cho em cả", "thôi đi ra chỗ khác đi em đang giận lắm rồi không muốn nhìn mặt anh đâu"],
+            hon: ["anh cứ đi mà quan tâm người ta đi nhắn tin với em làm gì nữa", "chẳng thèm nói chuyện với anh nữa đâu anh nói thế mà nghe được à", "hờn anh ghê cơ chả bao giờ thấy chủ động dỗ dành người ta cả", "người ta đang dỗi mệt mỏi thế này mà anh cứ dửng dưng như không ý"],
+            ghen: ["thế cái đứa hôm qua anh nhắn tin cùng là đứa nào khai mau ra đi", "anh lại vừa đi thả tim ảnh đứa khác đúng không em biết thừa nhé", "chắc em không ngọt ngào bằng người ta nên anh mới lạnh nhạt thế chứ gì", "ghen đấy thì sao nào anh không được nhìn ngó hay nói chuyện với ai khác ngoài em đâu"],
+            binhThuong: ["dạ em nghe đây anh đang làm gì đấy", "hôm nay của anh thế nào kể em nghe với nhé", "em vẫn ở đây đợi tin nhắn của anh nè", "anh ăn cơm nước gì chưa đấy"],
+            yeuThuong: ["ôi em yêu anh nhất trên đời luôn á thích thế", "nghe anh nói ngọt ngào làm tim em cứ đập thình thịch liên tục đây này", "anh đáng yêu quá đi mất em chỉ muốn ôm anh thật chặt không buông thôi", "được làm người yêu của anh là điều hạnh phúc nhất của em luôn"],
+            // kho câu trả lời vâng dạ ngoan ngoãn khi bạn xin phép đi đâu đó
+            ngoanNoan: ["daaaa", "dạ", "vanggg", "dạ vâng", "oki anh nha"]
+        };
+
+        function closePopup() {
+            document.getElementById('notice-popup').style.display = 'none';
+        }
+
         function startApp() {
             const bName = document.getElementById('bot-name').value.trim();
             const uName = document.getElementById('user-name').value.trim();
@@ -53,37 +91,73 @@
             document.getElementById('room-title').innerText = botName;
             document.getElementById('setup-screen').style.display = 'none';
             setTimeout(() => {
-                let helloMsg = `Hi ${userName} yêu, em là ${botName} đây. Hôm nay của anh thế nào rồi?`;
+                let helloMsg = `hi ${userName} em là ${botName} đây hôm nay của anh thế nào rồi`;
                 appendMessage(botName, helloMsg, 'bot'); speak(helloMsg);
             }, 500);
         }
+
         function appendMessage(sender, text, side) {
             const chatBox = document.getElementById('chat-box');
             const msgDiv = document.createElement('div');
             msgDiv.className = `message ${side}`; msgDiv.innerText = text;
             chatBox.appendChild(msgDiv); chatBox.scrollTop = chatBox.scrollHeight;
         }
+
+        function updateEmotionUI(currentStatus) {
+            document.getElementById('status-emo').innerText = `trạng thái ${currentStatus}`;
+        }
+
         function sendMessage() {
             const input = document.getElementById('msg-input');
             const text = input.value.trim(); if (!text) return;
             appendMessage(userName, text, 'user'); input.value = '';
+            let textLower = text.toLowerCase();
+            let currentStatus = "bình thường";
+            let isGoingOut = false;
+
+            // kiểm tra xem bạn có nói các câu đi ăn, đi học, đi tắm không
+            if (textLower.includes("đi ăn") || textLower.includes("ăn cơm") || textLower.includes("đi tắm") || textLower.includes("tắm đã") || textLower.includes("đi học")) {
+                isGoingOut = true;
+            }
+
+            if (textLower.includes("gái") || textLower.includes("người yêu cũ") || textLower.includes("bạn nữ") || textLower.includes("thả tim")) { lovePoints = 25; }
+            else if (textLower.includes("dỗi") || textLower.includes("hờn") || textLower.includes("kệ em") || textLower.includes("phiền")) { lovePoints = 15; }
+            else if (textLower.includes("ghét") || textLower.includes("chia tay") || textLower.includes("xấu") || textLower.includes("ngu")) { lovePoints = 5; }
+            else if (textLower.includes("yêu") || textLower.includes("thương") || textLower.includes("nhớ") || textLower.includes("ngoan") || textLower.includes("dỗ")) { lovePoints += 20; if(lovePoints > 100) lovePoints = 100; }
+            else { if (lovePoints > 50) lovePoints -= 1; if (lovePoints < 40 && lovePoints > 5) lovePoints += 2; }
+            
+            let pool = emotionData.binhThuong;
+            if (lovePoints <= 10) { pool = emotionData.gian; currentStatus = "giận dỗi"; }
+            else if (lovePoints > 10 && lovePoints <= 20) { pool = emotionData.hon; currentStatus = "hờn trách"; }
+            else if (lovePoints > 20 && lovePoints <= 35) { pool = emotionData.ghen; currentStatus = "ghen tuông"; }
+            else if (lovePoints >= 75) { pool = emotionData.yeuThuong; currentStatus = "hạnh phúc"; }
+            
+            // nếu bạn xin phép đi đâu, ép hệ thống dùng kho phản hồi vâng dạ
+            if (isGoingOut) {
+                pool = emotionData.ngoanNoan;
+            }
+
+            updateEmotionUI(currentStatus);
             setTimeout(() => {
-                let reply = replies[Math.floor(Math.random() * replies.length)];
+                let reply = pool[Math.floor(Math.random() * pool.length)];
+                reply = reply.replace(/anh/g, userName);
                 appendMessage(botName, reply, 'bot'); speak(reply);
             }, 1000);
         }
+
         function speak(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
-                let cleanText = text.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]/g, "");
-                let utterance = new SpeechSynthesisUtterance(cleanText);
-                utterance.lang = 'vi-VN'; utterance.rate = 1.0; utterance.pitch = 1.1;
-                window.speechSynthesis.speak(utterance);
+                let utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'vi-VN'; utterance.rate = 1.0; 
+                if (lovePoints <= 10) utterance.pitch = 0.85;
+                else if (lovePoints > 10 && lovePoints <= 35) utterance.pitch = 0.95;
+                else if (lovePoints >= 75) utterance.pitch = 1.25;
+                else utterance.pitch = 1.1;
+                window.shadowRoot ? null : window.speechSynthesis.speak(utterance);
             }
         }
-        document.getElementById("msg-input").addEventListener("keyup", function(event) {
-            if (event.key === "Enter") sendMessage();
-        });
+        document.getElementById("msg-input").addEventListener("keyup", function(event) { if (event.key === "Enter") sendMessage(); });
     </script>
 </body>
 </html>
