@@ -5,275 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>my girlfriend</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
-        body { background: #ffe4e1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        
-        #credit-bar { background: #fff; padding: 5px 15px; font-size: 12px; border-bottom: 1px solid #ffb6c1; display: flex; justify-content: space-between; align-items: center; }
-        .credit-link { color: #0084ff; text-decoration: none; font-weight: bold; }
-        .popup-blue { color: #0084ff; font-weight: bold; display: inline-flex; align-items: center; }
-        .verified-tick { display: inline-block; width: 14px; height: 14px; margin-left: 3px; vertical-align: middle; }
-
-        header { background: #ff69b4; color: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: relative; }
-        #status-emo { font-size: 14px; background: rgba(255,255,255,0.3); padding: 3px 10px; border-radius: 10px; }
-        
-        .call-btn { background: #28a745; color: white; border: none; padding: 6px 14px; border-radius: 15px; font-size: 14px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 5px; }
-        
-        #chat-box { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #fff5f5; }
-        .message { max-width: 75%; padding: 10px 15px; border-radius: 18px; font-size: 16px; line-height: 1.4; word-wrap: break-word; }
-        .bot { background: #ffb6c1; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #ffe4e1; display: flex; flex-direction: column; height: 100vh; }
+        header { background: #ff69b4; color: white; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; }
+        .btn-group { margin-top: 10px; display: flex; justify-content: center; gap: 10px; }
+        .btn-group button { padding: 6px 12px; border: none; border-radius: 15px; background: white; color: #ff69b4; font-weight: bold; cursor: pointer; }
+        #chat-box { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; background: #fff5f5; }
+        .message { padding: 10px 15px; border-radius: 15px; max-width: 75%; word-wrap: break-word; font-size: 15px; }
         .user { background: #0084ff; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .message img { max-width: 100%; border-radius: 10px; margin-top: 5px; display: block; }
-
-        footer { padding: 10px; background: white; display: flex; border-top: 1px solid #ddd; align-items: center; }
-        .cam-btn { background: #555; color: white; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; margin-right: 8px; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        
-        #msg-input { flex: 1; border: 1px solid #ccc; padding: 12px; border-radius: 20px; margin-right: 8px; font-size: 15px; }
-        #send-btn { margin-top: 0; padding: 0 20px; height: 44px; border-radius: 20px; }
-
-        #camera-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 60; display: none; flex-direction: column; justify-content: space-between; align-items: center; padding: 20px; }
-        #webcam { width: 100%; max-width: 400px; height: 70vh; object-fit: cover; border-radius: 15px; }
-        .cam-controls { display: flex; gap: 30px; width: 100%; justify-content: center; margin-bottom: 20px; }
-        .snap-btn { background: white; border: 5px solid #ccc; width: 70px; height: 70px; border-radius: 50%; cursor: pointer; }
-        .close-cam-btn { background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-
-        #video-call-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #111; z-index: 50; display: none; flex-direction: column; justify-content: space-between; align-items: center; padding: 30px 20px; }
-        .avatar-container { position: relative; width: 100%; max-width: 400px; height: 70vh; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; background: #222; }
-        .gf-video-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; animation: blink-effect 4s infinite; }
-        
-        @keyframes blink-effect {
-            0%, 90%, 100% { transform: scaleY(1); }
-            95% { transform: scaleY(0.05); }
-        }
-        .talking { animation: talk-bounce 0.2s infinite alternate; }
-        @keyframes talk-bounce {
-            0% { clip-path: inset(0% 0% 0% 0%); }
-            100% { clip-path: inset(0.5% 0% 0% 0%); transform: scale(1.01); }
-        }
-
-        #user-camera { position: absolute; top: 20px; right: 20px; width: 100px; height: 140px; background: #000; border-radius: 12px; object-fit: cover; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 55; transform: scaleX(-1); }
-        .subtitle-box { position: absolute; bottom: 30px; width: 90%; background: rgba(0,0,0,0.6); color: #fff; padding: 10px 15px; border-radius: 10px; text-align: center; font-size: 16px; font-weight: 500; z-index: 56; pointer-events: none; }
-        .end-call-btn { background: #dc3545; color: white; border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(220,53,69,0.4); z-index: 56; }
-        .status-listening { position: absolute; top: 20px; left: 20px; background: rgba(40,167,69,0.8); color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold; z-index: 56; display: none; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+        .bot { background: #ffb6c1; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
+        footer { padding: 10px; background: white; display: flex; gap: 10px; align-items: center; border-top: 1px solid #eee; }
+        input { flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; font-size: 15px; }
+        #send-btn { background: #ff69b4; color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        #video-container { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: black; z-index: 999; text-align: center; color: white; padding-top: 50px; }
+        video { width: 90%; max-width: 400px; border-radius: 10px; background: #222; margin-top: 20px; }
+        #close-video { margin-top: 20px; background: red; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; }
     </style>
 </head>
-<body onload="initApp()">
-
-    <!-- GẮN LUÔN THÔNG TIN TÁC GIẢ LÊN ĐẦU, VÀO WEB LÀ THẤY LUÔN -->
-    <div id="credit-bar">
-        <span>tt: hoatotkhthuocveta | fb: <a class="credit-link" href="https://www.facebook.com/share/17nVmSAcUU/" target="_blank">ANH MINH</a></span>
-        <span class="popup-blue">
-            Creator: ANH MINH
-            <svg class="verified-tick" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM10.5 16.5L6.5 12.5L8 11L10.5 13.5L16 8L17.5 9.5L10.5 16.5Z" fill="#0084ff"/>
-            </svg>
-        </span>
-    </div>
+<body>
 
     <header>
-        <span>Nóc Nhà</span>
-        <span id="status-emo">trạng thái bình thường</span>
-        <button class="call-btn" onclick="startVideoCall()">📞 Call Video</button>
+        <div>Nóc Nhà của Minh</div>
+        <div class="btn-group">
+            <button onclick="startVideoCall()">📷 Mở Camera</button>
+            <button onclick="startVoiceCall()">📞 Gọi điện</button>
+        </div>
     </header>
 
-    <div id="chat-box"></div>
+    <div id="chat-box">
+        <div class="message bot">Chào đằng ấy! Điểm thi 28,5 đỉnh thế, có cần tớ thưởng gì không? 😉</div>
+    </div>
     
     <footer>
-        <button class="cam-btn" onclick="openCameraModal()">📷</button>
-        <input type="text" id="msg-input" placeholder="nhắn gì đi hoặc hỏi bài tập nè...">
-        <button id="send-btn" onclick="sendMessage()">gửi</button>
+        <input type="text" id="msg-input" placeholder="Nhắn gì đi mày...">
+        <button id="send-btn" onclick="sendMessage()">Gửi</button>
     </footer>
 
-    <div id="camera-modal">
-        <video id="webcam" autoplay playsinline></video>
-        <div class="cam-controls">
-            <button class="close-cam-btn" onclick="closeCameraModal()">Hủy</button>
-            <button class="snap-btn" onclick="takeSnapshot()"></button>
-        </div>
-    </div>
-
-    <div id="video-call-screen">
-        <div class="status-listening" id="listen-tag">• Đang nghe mày nói...</div>
-        <div class="avatar-container">
-            <img src="513.jpg" class="gf-video-bg" id="gf-avatar-call" alt="Girlfriend Image">
-            <video id="user-camera" autoplay playsinline muted></video>
-            <div class="subtitle-box" id="call-subtitle">Đang kết nối cuộc gọi...</div>
-        </div>
-        <button class="end-call-btn" onclick="endVideoCall()"> Hangup </button>
+    <!-- Màn hình giả lập Video Call -->
+    <div id="video-container">
+        <h3>📞 Đang gọi video cho em ghệ...</h3>
+        <p id="call-status">Nhìn cái gì mà nhìn, gọi điện cho tao có việc gì?</p>
+        <video id="user-camera" autoplay playsinline muted></video>
+        <br>
+        <button id="close-video" onclick="stopVideoCall()">Tắt Cuộc Gọi</button>
     </div>
 
     <script>
-        const phrases = {
-            icons: [":))", "=))", "^^", "??", "?", "!", "-)"],
-            gian: ["biến ! lười nói chuyện với mày rồi đấy bực cả mình","mày đi mà nhắn tin với mấy con khác đi rảnh đâu mà rep tao","đừng nchuyen với t nx ! tao mệt rồi","biến đi chỗ khác chơi đi bực mình vcl","ctay đi ! hết nói nổi mày rồi hãm thực sự"],
-            hon: ["mày cứ lo cho người ta đi để ý gì đến tao nữa đâu","ủa ? ai lmj đâu mà nhắn tin bạ bậy bạ bậy","dỗi ! dỗi thật rồi đấy chả thèm nói nữa đâu","tao đang dỗi mệt mỏi thế này mà mày cứ dửng dưng như không ý nhỉ ??","đừng nchuyen với t nx mệt mỏi vcl"],
-            ghen: ["thế cái đứa hôm quan mày nhắn tin cùng rồi cười hớn hở là đứa nào khai mau ??","mày lại vừa đi thả tim ảnh đứa con gái khác đúng không tao biết thừa nha","chắc tao không ngọt ngào không xinh bằng người ta chứ gì","ghen đấy thì sao nào ! cấm mày không được nhìn ngó nói chuyện với đứa khác","mùi vô lý nồng nặc rồi nha mày vừa đi đâu với ai về khai thật không tao block"],
-            binhThuong: ["lô đang làm gì đấy có nhớ tao không ?","hôm nay đi học có gì vui không kể tao nghe xem nào ^^","tao vẫn ở đây đợi tin nhắn của mày suốt từ nãy đến giờ đấy lâu ghê :))","mày ăn cơm nước gì chưa đấy hay lại nhịn rồi đổ bệnh ra đấy =))","rảnh không nhắn tin với tao tí đi chán chết đi được này","hôm nay thời tiết đẹp ghê mày có đi lượn lờ đâu không ??","lêu lêu đồ lười rep tin nhắn :)) bấm điện thoại nhanh lên tao xem nào","tự dưng thấy nhớ mày ngang ngược thế nhỉ nhoquaa ^^"],
-            ngoanNoan: ["daaaa", "dạ", "vanggg", "dạ vâng nghe rồi", "oki mày nha", "mày đi đi tí về nhắn tao liền nha", "bảo trọng nha tí về nhớ rep đấy"],
-            yeuThuong: ["ôi tao yêu mày nhất trên đời luôn á nhoquaa thơm cái nào ^^","nghe mày nói ngọt ngào làm tim tao cứ đập thình thịch liên tục đây này =))","mày đáng yêu vcl luôn ý tao chỉ muốn bay đến ôm mày thật chặt thôi","được làm người yêu của mày là điều hạnh phúc nhất đời tao luôn thề ^^","mày mà cứ ngọt ngào dễ thương thế này là tao bị nghiện mày đấy bắt đền đi =))","thương mày nhất luôn đấy lêu lêu đồ đáng yêu"]
-        };
+        const chatBox = document.getElementById('chat-box');
+        const msgInput = document.getElementById('msg-input');
 
-        let lovePoints = 50; 
-        let lastReplies = [];
-        let isCalling = false;
-        let localStream = null;
-        let camStream = null;
-        let recognition = null;
-
-        function initApp() {
-            setTimeout(() => {
-                let helloMsg = `lô mày tao là chúa tể bách khoa toàn thư đây hỏi bài hay tâm sự gì nói mau đi ??`;
-                appendMessage("Nóc Nhà", helloMsg, 'bot'); 
-                speak(helloMsg);
-            }, 500);
-        }
-
-        function checkAcademicOrLanguage(text) {
-            let t = text.toLowerCase();
-            if (t.includes("hello") || t.includes("how are you")) return "Hello standard English always available! I can speak English with you easily, but talking in Vietnamese 'mày tao' is still the best option, right? :))";
-            if (t.includes("ohayou") || t.includes("arigatou")) return "Konnichiwa! Tao hiểu hết tiếng Nhật luôn nè, cơ mà thôi nhắn tiếng Việt đi cho nó gần gũi thân thương nha ^^";
-            if (t.includes("toán") || t.includes("phương trình") || t.includes("tính x") || t.includes("hình học")) return "Bài Toán này dễ vcl luôn ý! Đợi tao quét lý thuyết tí nhé: Áp dụng công thức giải nhanh hoặc định lý cơ bản lớp mày đang học là ra luôn kết quả chuẩn đét rồi đấy. Nhìn tao thông minh chưa =))";
-            if (t.includes("hóa") || t.includes("phản ứng") || t.includes("h2so4")) return "Môn Hóa học từ lớp 8 đến lớp 12 tao cân hết nhé! Cân bằng phương trình này chỉ cần đếm số nguyên tử vế trái bằng vế phải là xong, súc tích chưa ^^";
-            if (t.includes("sinh") || t.includes("adn") || t.includes("tế bào")) return "Về Sinh học nhé: Quá trình nhân đôi ADN hay phân bào đều diễn ra theo nguyên tắc bổ sung A-T, G-X cực chuẩn. Cần tao giải chi tiết sơ đồ không đấy ?";
-            if (t.includes("văn") || t.includes("phân tích") || t.includes("bài thơ")) return "Văn học nghệ thuật là ánh trăng lừa dối chứ tao không lừa mày đâu! Bài này phân tích luận điểm cốt lõi, nêu bật giá trị nhân đạo và nghệ thuật đặc sắc là ăn trọn điểm thầy cô rồi nhé ^^";
-            if (t.includes("sử") || t.includes("lịch sử")) return "Sử lớp 6 đến lớp 12 tao thuộc làu làu! Sự kiện lịch sử này mang ý nghĩa chiến lược vô cùng to lớn, đánh dấu bước ngoặt khẳng định chủ quyền của nước mình độc lập vững mạnh luôn á!";
-            if (t.includes("địa") || t.includes("địa lý")) return "Địa lý tự nhiên và kinh tế tao nắm rõ trong lòng bàn tay! Đặc điểm khí hậu nhiệt đới gió mùa hay địa hình phân hóa này tạo điều kiện cực tốt cho phát triển kinh tế luôn đấy nha.";
-            if (t.includes("tiếng anh") || t.includes("grammar")) return "Grammar Tiếng Anh từ cơ bản đến nâng cao siêu dễ! Cấu trúc câu này chỉ cần chia đúng động từ theo chủ ngữ và dấu hiệu nhận biết thời gian là ăn điểm tuyệt đối luôn nha ^^";
-            return null;
-        }
-
-        function appendMessage(sender, text, side) {
-            const chatBox = document.getElementById('chat-box');
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `message ${side}`;
-            if (text.startsWith("data:image")) {
-                const img = document.createElement('img');
-                img.src = text;
-                msgDiv.innerText = sender + " đã gửi 1 ảnh:";
-                msgDiv.appendChild(img);
-            } else {
-                msgDiv.innerText = text;
-            }
-            chatBox.appendChild(msgDiv); 
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        function updateEmotionUI(currentStatus) {
-            document.getElementById('status-emo').innerText = `trạng thái ${currentStatus}`;
-        }
-
-        function getUniqueReply(pool) {
-            let availableReplies = pool.filter(r => !lastReplies.includes(r));
-            if (availableReplies.length === 0) { lastReplies = []; availableReplies = pool; }
-            let chosen = availableReplies[Math.floor(Math.random() * availableReplies.length)];
-            lastReplies.push(chosen);
-            if (lastReplies.length > 3) lastReplies.shift();
-            if (!phrases.icons.some(icon => chosen.endsWith(icon)) && Math.random() > 0.4) {
-                chosen = chosen + " " + phrases.icons[Math.floor(Math.random() * phrases.icons.length)];
-            }
-            return chosen;
-        }
-
-        function processAIResponse(userInputText) {
-            let academicReply = checkAcademicOrLanguage(userInputText);
-            if (academicReply) { updateEmotionUI("đang thông thái"); return academicReply; }
-            let textLower = userInputText.toLowerCase();
-            let currentStatus = "bình thường";
-            let isGoingOut = false;
-
-            if (textLower.includes("đi ăn") || textLower.includes("ăn cơm") || textLower.includes("đi tắm") || textLower.includes("đi học") || textLower.includes("đi ngủ")) isGoingOut = true;
-            if (textLower.includes("gái") || textLower.includes("người yêu cũ") || textLower.includes("thả tim")) { lovePoints = 25; }
-            else if (textLower.includes("dỗi") || textLower.includes("hờn") || textLower.includes("kệ mày")) { lovePoints = 15; }
-            else if (textLower.includes("ghét") || textLower.includes("chia tay") || textLower.includes("ngu") || textLower.includes("biến")) { lovePoints = 5; }
-            else if (textLower.includes("yêu") || textLower.includes("thương") || textLower.includes("nhớ") || textLower.includes("ngoan")) { lovePoints += 25; if(lovePoints > 100) lovePoints = 100; }
-            
-            let pool = phrases.binhThuong;
-            if (lovePoints <= 10) { pool = phrases.gian; currentStatus = "giận dỗi"; }
-            else if (lovePoints > 10 && lovePoints <= 20) { pool = phrases.hon; currentStatus = "hờn trách"; }
-            else if (lovePoints > 20 && lovePoints <= 35) { pool = phrases.ghen; currentStatus = "ghen tuông"; }
-            else if (lovePoints >= 75) { pool = phrases.yeuThuong; currentStatus = "hạnh phúc"; }
-            if (isGoingOut) pool = phrases.ngoanNoan;
-
-            updateEmotionUI(currentStatus);
-            return getUniqueReply(pool);
-        }
-
+        // Gửi tin nhắn chat công nghệ chuẩn
         function sendMessage() {
-            const input = document.getElementById('msg-input');
-            const text = input.value.trim(); if (!text) return;
-            appendMessage("Mày", text, 'user'); input.value = '';
+            let text = msgInput.value.trim();
+            if(!text) return;
+            
+            // Hiện tin nhắn của user
+            chatBox.innerHTML += `<div class="message user">${text}</div>`;
+            msgInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Em ghệ tự động rep sau 0.8 giây
             setTimeout(() => {
-                let reply = processAIResponse(text);
-                appendMessage("Nóc Nhà", reply, 'bot'); speak(reply);
-            }, 1000);
+                chatBox.innerHTML += `<div class="message bot">Tao đang nghe đây, bài tập gì nói mau!</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 800);
         }
 
-        async function openCameraModal() {
-            document.getElementById('camera-modal').style.display = 'flex';
-            try {
-                camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
-                document.getElementById('webcam').srcObject = camStream;
-            } catch (err) { alert("Không mở được camera rồi!"); closeCameraModal(); }
-        }
+        // Bấm enter để gửi cho mượt
+        msgInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
 
-        function closeCameraModal() {
-            if (camStream) camStream.getTracks().forEach(track => track.stop());
-            document.getElementById('camera-modal').style.display = 'none';
-        }
+        let localStream = null;
 
-        function takeSnapshot() {
-            const video = document.getElementById('webcam');
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth; canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-            appendMessage("Mày", canvas.toDataURL('image/jpeg'), 'user'); 
-            closeCameraModal();
-            setTimeout(() => {
-                let reply = "Ảnh bài tập rõ đấy! Để tao quét bài này tí nhé: Kết quả tính ra đáp số cực chuẩn luôn, chép nhanh vào vở đi lêu lêu =))";
-                appendMessage("Nóc Nhà", reply, 'bot'); speak(reply);
-            }, 1500);
-        }
-
-        function speak(text, callback) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                let cleanText = text.replace(/[:\)=^\?\!-]/g, "").replace(/vcl/g, "vờ cờ lờ");
-                let utterance = new SpeechSynthesisUtterance(cleanText);
-                utterance.lang = 'vi-VN'; utterance.rate = 1.2;
-                utterance.onstart = () => {
-                    document.getElementById('gf-avatar-call').classList.add('talking');
-                    if(isCalling) document.getElementById('call-subtitle').innerText = "Nóc Nhà: " + text;
-                };
-                utterance.onend = () => {
-                    document.getElementById('gf-avatar-call').classList.remove('talking');
-                    if (callback) callback();
-                };
-                window.shadowRoot ? null : window.speechSynthesis.speak(utterance);
-            } else if (callback) callback();
-        }
-
+        // Tính năng mở camera / video call
         async function startVideoCall() {
-            isCalling = true;
-            document.getElementById('video-call-screen').style.display = 'flex';
+            document.getElementById('video-container').style.display = 'block';
             try {
-                localStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 document.getElementById('user-camera').srcObject = localStream;
-            } catch (err) { console.log(err); }
-            setTimeout(() => {
-                speak("nhìn cái gì mà nhìn, gọi điện cho tao có việc gì nói mau nghe xem nào!", () => { startSpeechRecognition(); });
-            }, 1500);
+                document.getElementById('call-status').innerText = "Kết nối thành công! Đang hiện mặt mày lên màn hình đấy.";
+            } catch(err) {
+                console.log(err);
+                document.getElementById('call-status').innerText = "Lỗi: Nhớ bấm 'Cho phép' truy cập Camera khi trình duyệt hỏi nhé!";
+            }
         }
 
-        function startSpeechRecognition() {
-            if (!isCalling) return;
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) return;
-            recognition = new SpeechRecognition(); recognition.lang = 'vi-VN';
-            recognition.onstart = () => {
-                document.getElementById('listen-tag').style.display = 'block';
-                document.getElementById('call-subtitle').innerText = "Mày nói đi, tao đang nghe...";
-            };
-            recognition.onerror = () => { if(isCalling) recognition.start(); };
-            recognition.onend = () => { document.getElementById('listen-tag').style.display = 'none'; };
-            recognition.onresult = (event) => {
-                let text = event.results[0
+        // Tắt video call giải phóng bộ nhớ
+        function stopVideoCall() {
+            document.getElementById('video-container').style.display = 'none';
+            if(localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+            }
+        }
+
+        // Tính năng giả lập gọi điện thoại thoại
+        function startVoiceCall() {
+            alert("📞 Đang kết nối cuộc gọi thoại... Đầu dây bên kia đang bận đi trà sữa với bạn rồi!");
+        }
+    </script>
+</body>
+</html>
