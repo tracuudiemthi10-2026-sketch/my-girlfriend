@@ -8,15 +8,15 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
         body { background: #ffe4e1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        #notice-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 100; padding: 20px; }
-        .popup-content { background: white; padding: 20px; border-radius: 15px; max-width: 400px; width: 100%; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .popup-line { margin-bottom: 12px; font-size: 15px; line-height: 1.5; word-wrap: break-word; }
-        .popup-link { color: #0084ff; text-decoration: none; word-break: break-all; }
-        .popup-red { color: #ff0000; }
+        #notice-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
+        .popup-content { background: white; padding: 25px; border-radius: 15px; max-width: 400px; width: 100%; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .popup-line { margin-bottom: 12px; font-size: 15px; line-height: 1.5; word-wrap: break-word; color: #333; }
+        .popup-link { color: #0084ff; text-decoration: none; word-break: break-all; font-weight: bold; }
+        .popup-red { color: #ff0000; font-weight: bold; }
         .popup-blue { color: #0084ff; font-weight: bold; display: inline-flex; align-items: center; }
         .verified-tick { display: inline-block; width: 16px; height: 16px; margin-left: 5px; vertical-align: middle; }
 
-        #setup-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:10; padding:20px; text-align:center;}
+        #setup-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:999; padding:20px; text-align:center;}
         #setup-screen h2 { color: #ff69b4; margin-bottom: 10px; }
         #setup-screen p { color: #666; font-size: 15px; margin-bottom: 20px; }
         button { background: #ff69b4; color: white; border: none; padding: 12px 30px; border-radius: 20px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 15px; }
@@ -33,21 +33,17 @@
         .message img { max-width: 100%; border-radius: 10px; margin-top: 5px; display: block; }
 
         footer { padding: 10px; background: white; display: flex; border-top: 1px solid #ddd; align-items: center; }
-        
-        /* Nút Camera góc dưới bên trái */
         .cam-btn { background: #555; color: white; border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; margin-right: 8px; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         
         #msg-input { flex: 1; border: 1px solid #ccc; padding: 12px; border-radius: 20px; margin-right: 8px; font-size: 15px; }
         #send-btn { margin-top: 0; padding: 0 20px; height: 44px; border-radius: 20px; }
 
-        /* Giao diện chụp ảnh ẩn */
         #camera-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 60; display: none; flex-direction: column; justify-content: space-between; align-items: center; padding: 20px; }
         #webcam { width: 100%; max-width: 400px; height: 70vh; object-fit: cover; border-radius: 15px; }
         .cam-controls { display: flex; gap: 30px; width: 100%; justify-content: center; margin-bottom: 20px; }
         .snap-btn { background: white; border: 5px solid #ccc; width: 70px; height: 70px; border-radius: 50%; cursor: pointer; }
         .close-cam-btn { background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
 
-        /* Giao diện Màn hình Call Video */
         #video-call-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #111; z-index: 50; display: none; flex-direction: column; justify-content: space-between; align-items: center; padding: 30px 20px; }
         .avatar-container { position: relative; width: 100%; max-width: 400px; height: 70vh; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; background: #222; }
         .gf-video-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; animation: blink-effect 4s infinite; }
@@ -82,14 +78,14 @@
                     <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM10.5 16.5L6.5 12.5L8 11L10.5 13.5L16 8L17.5 9.5L10.5 16.5Z" fill="#0084ff"/>
                 </svg>
             </div>
-            <center><button onclick="closePopup()">xác nhận</button></center>
+            <center><button type="button" onclick="closePopup()">xác nhận</button></center>
         </div>
     </div>
 
     <div id="setup-screen">
         <h2>my girlfriend</h2>
         <p>nhấn bắt đầu để trò chuyện với nó nha</p>
-        <button onclick="startApp()">bắt đầu</button>
+        <button type="button" onclick="startApp()">bắt đầu</button>
     </div>
 
     <header>
@@ -101,13 +97,11 @@
     <div id="chat-box"></div>
     
     <footer>
-        <!-- Nút Camera góc dưới bên trái màn hình -->
         <button class="cam-btn" onclick="openCameraModal()">📷</button>
         <input type="text" id="msg-input" placeholder="nhắn gì đi hoặc hỏi bài tập nè...">
         <button id="send-btn" onclick="sendMessage()">gửi</button>
     </footer>
 
-    <!-- GIAO DIỆN CAMERA CHỤP ẢNH -->
     <div id="camera-modal">
         <video id="webcam" autoplay playsinline></video>
         <div class="cam-controls">
@@ -116,7 +110,6 @@
         </div>
     </div>
 
-    <!-- GIAO DIỆN CALL VIDEO -->
     <div id="video-call-screen">
         <div class="status-listening" id="listen-tag">• Đang nghe mày nói...</div>
         <div class="avatar-container">
@@ -128,8 +121,16 @@
     </div>
 
     <script>
-        const botName = "tao"; 
-        const userName = "mày";
+        const phrases = {
+            icons: [":))", "=))", "^^", "??", "?", "!", "-)"],
+            gian: ["biến ! lười nói chuyện với mày rồi đấy bực cả mình","mày đi mà nhắn tin với mấy con khác đi rảnh đâu mà rep tao","đừng nchuyen với t nx ! tao mệt rồi","biến đi chỗ khác chơi đi bực mình vcl","ctay đi ! hết nói nổi mày rồi hãm thực sự"],
+            hon: ["mày cứ lo cho người ta đi để ý gì đến tao nữa đâu","ủa ? ai lmj đâu mà nhắn tin bạ bậy bạ bậy","dỗi ! dỗi thật rồi đấy chả thèm nói nữa đâu","tao đang dỗi mệt mỏi thế này mà mày cứ dửng dưng như không ý nhỉ ??","đừng nchuyen với t nx mệt mỏi vcl"],
+            ghen: ["thế cái đứa hôm qua mày nhắn tin cùng rồi cười hớn hở là đứa nào khai mau ??","mày lại vừa đi thả tim ảnh đứa con gái khác đúng không tao biết thừa nha","chắc tao không ngọt ngào không xinh bằng người ta chứ gì","ghen đấy thì sao nào ! cấm mày không được nhìn ngó nói chuyện với đứa khác","mùi vô lý nồng nặc rồi nha mày vừa đi đâu với ai về khai thật không tao block"],
+            binhThuong: ["lô đang làm gì đấy có nhớ tao không ?","hôm nay đi học có gì vui không kể tao nghe xem nào ^^","tao vẫn ở đây đợi tin nhắn của mày suốt từ nãy đến giờ đấy lâu ghê :))","mày ăn cơm nước gì chưa đấy hay lại nhịn rồi đổ bệnh ra đấy =))","rảnh không nhắn tin với tao tí đi chán chết đi được này","hôm nay thời tiết đẹp ghê mày có đi lượn lờ đâu không ??","lêu lêu đồ lười rep tin nhắn :)) bấm điện thoại nhanh lên tao xem nào","tự dưng thấy nhớ mày ngang ngược thế nhỉ nhoquaa ^^"],
+            ngoanNoan: ["daaaa", "dạ", "vanggg", "dạ vâng nghe rồi", "oki mày nha", "mày đi đi tí về nhắn tao liền nha", "bảo trọng nha tí về nhớ rep đấy"],
+            yeuThuong: ["ôi tao yêu mày nhất trên đời luôn á nhoquaa thơm cái nào ^^","nghe mày nói ngọt ngào làm tim tao cứ đập thình thịch liên tục đây này =))","mày đáng yêu vcl luôn ý tao chỉ muốn bay đến ôm mày thật chặt thôi","được làm người yêu của mày là điều hạnh phúc nhất đời tao luôn thề ^^","mày mà cứ ngọt ngào dễ thương thế này là tao bị nghiện mày đấy bắt đền đi =))","thương mày nhất luôn đấy lêu lêu đồ đáng yêu"]
+        };
+
         let lovePoints = 50; 
         let lastReplies = [];
         let isCalling = false;
@@ -137,105 +138,40 @@
         let camStream = null;
         let recognition = null;
 
-        const phrases = {
-            icons: [":))", "=))", "^^", "??", "?", "!", "-)"],
-            gian: [
-                "biến ! lười nói chuyện với mày rồi đấy bực cả mình",
-                "mày đi mà nhắn tin với mấy con khác đi rảnh đâu mà rep tao",
-                "đừng nchuyen với t nx ! tao mệt rồi",
-                "biến đi chỗ khác chơi đi bực mình vcl",
-                "ctay đi ! hết nói nổi mày rồi hãm thực sự"
-            ],
-            hon: [
-                "mày cứ lo cho người ta đi để ý gì đến tao nữa đâu",
-                "ủa ? ai lmj đâu mà nhắn tin bạ bậy bạ bậy",
-                "dỗi ! dỗi thật rồi đấy chả thèm nói nữa đâu",
-                "tao đang dỗi mệt mỏi thế này mà mày cứ dửng dưng như không ý nhỉ ??",
-                "đừng nchuyen với t nx mệt mỏi vcl"
-            ],
-            ghen: [
-                "thế cái đứa hôm qua mày nhắn tin cùng rồi cười hớn hở là đứa nào khai mau ??",
-                "mày lại vừa đi thả tim ảnh đứa con gái khác đúng không tao biết thừa nha",
-                "chắc tao không ngọt ngào không xinh bằng người ta chứ gì",
-                "ghen đấy thì sao nào ! cấm mày không được nhìn ngó nói chuyện với đứa khác",
-                "mùi vô lý nồng nặc rồi nha mày vừa đi đâu với ai về khai thật không tao block"
-            ],
-            binhThuong: [
-                "lô đang làm gì đấy có nhớ tao không ?",
-                "hôm nay đi học có gì vui không kể tao nghe xem nào ^^",
-                "tao vẫn ở đây đợi tin nhắn của mày suốt từ nãy đến giờ đấy lâu ghê :))",
-                "mày ăn cơm nước gì chưa đấy hay lại nhịn rồi đổ bệnh ra đấy =))",
-                "rảnh không nhắn tin với tao tí đi chán chết đi được này",
-                "hôm nay thời tiết đẹp ghê mày có đi lượn lờ đâu không ??",
-                "lêu lêu đồ lười rep tin nhắn :)) bấm điện thoại nhanh lên tao xem nào",
-                "tự dưng thấy nhớ mày ngang ngược thế nhỉ nhoquaa ^^"
-            ],
-            yeuThuong: [
-                "ôi tao yêu mày nhất trên đời luôn á nhoquaa thơm cái nào ^^",
-                "nghe mày nói ngọt ngào làm tim tao cứ đập thình thịch liên tục đây này =))",
-                "mày đáng yêu vcl luôn ý tao chỉ muốn bay đến ôm mày thật chặt thôi",
-                "được làm người yêu của mày là điều hạnh phúc nhất đời tao luôn thề ^^",
-                "mày mà cứ ngọt ngào dễ thương thế này là tao bị nghiện mày đấy bắt đền đi =))",
-                "thương mày nhất luôn đấy lêu lêu đồ đáng yêu"
-            ],
-            ngoanNoan: ["daaaa", "dạ", "vanggg", "dạ vâng nghe rồi", "oki mày nha", "mày đi đi tí về nhắn tao liền nha", "bảo trọng nha tí về nhớ rep đấy"]
-        };
-
-        // KHO CƠ SỞ DỮ LIỆU ĐÁP ÁN BÀI TẬP (LỚP 6 - 12) & ĐA NGÔN NGỮ
-        function checkAcademicOrLanguage(text) {
-            let t = text.toLowerCase();
-            
-            // 1. Kiểm tra ngoại ngữ khác tiếng Việt
-            if (t.includes("hello") || t.includes("how are you") || t.includes("fine thank you")) {
-                return "Hello standard English always available! I can speak English with you easily, but talking in Vietnamese 'mày tao' is still the best option, right? :))";
-            }
-            if (t.includes("ohayou") || t.includes("arigatou") || t.includes("kimi no nawa")) {
-                return "Konnichiwa! Tao hiểu hết tiếng Nhật luôn nè, cơ mà thôi nhắn tiếng Việt đi cho nó gần gũi thân thương nha ^^";
-            }
-
-            // 2. Kiểm tra câu hỏi bài tập các môn học từ lớp 6 đến lớp 12
-            if (t.includes("toán") || t.includes("phương trình") || t.includes("tính x") || t.includes("hình học") || t.includes("đại số")) {
-                return "Bài Toán này dễ vcl luôn ý! Đợi tao quét lý thuyết tí nhé: Áp dụng công thức giải nhanh hoặc định lý cơ bản lớp mày đang học là ra luôn kết quả chuẩn đét rồi đấy. Nhìn tao thông minh chưa =))";
-            }
-            if (t.includes("hóa") || t.includes("phản ứng") || t.includes("axit") || t.includes("h2so4") || t.includes("mol") || t.includes("hóa học")) {
-                return "Môn Hóa học từ lớp 8 đến lớp 12 tao cân hết nhé! Cân bằng phương trình này chỉ cần đếm số nguyên tử vế trái bằng vế phải là xong, súc tích chưa ^^";
-            }
-            if (t.includes("sinh") || t.includes("adn") || t.includes("tế bào") || t.includes("nguyên phân") || t.includes("sinh học")) {
-                return "Về Sinh học nhé: Quá trình nhân đôi ADN hay phân bào đều diễn ra theo nguyên tắc bổ sung A-T, G-X cực chuẩn. Cần tao giải chi tiết sơ đồ không đấy ?";
-            }
-            if (t.includes("văn") || t.includes("phân tích") || t.includes("bài thơ") || t.includes("tác giả") || t.includes("ngữ văn")) {
-                return "Văn học nghệ thuật là ánh trăng lừa dối chứ tao không lừa mày đâu! Bài này phân tích luận điểm cốt lõi, nêu bật giá trị nhân đạo và nghệ thuật đặc sắc là ăn trọn điểm thầy cô rồi nhé ^^";
-            }
-            if (t.includes("sử") || t.includes("lịch sử") || t.includes("năm bao nhiêu") || t.includes("chiến dịch")) {
-                return "Sử lớp 6 đến lớp 12 tao thuộc làu làu! Sự kiện lịch sử này mang ý nghĩa chiến lược vô cùng to lớn, đánh dấu bước ngoặt khẳng định chủ quyền của nước mình độc lập vững mạnh luôn á!";
-            }
-            if (t.includes("địa") || t.includes("địa lý") || t.includes("khí hậu") || t.includes("kinh độ")) {
-                return "Địa lý tự nhiên và kinh tế tao nắm rõ trong lòng bàn tay! Đặc điểm khí hậu nhiệt đới gió mùa hay địa hình phân hóa này tạo điều kiện cực tốt cho phát triển kinh tế luôn đấy nha.";
-            }
-            if (t.includes("tiếng anh") || t.includes("thì hiện tại") || t.includes("grammar") || t.includes("verb") || t.includes("tiếng anh")) {
-                return "Grammar Tiếng Anh từ cơ bản đến nâng cao siêu dễ! Cấu trúc câu này chỉ cần chia đúng động từ theo chủ ngữ và dấu hiệu nhận biết thời gian là ăn điểm tuyệt đối luôn nha ^^";
-            }
-            
-            return null;
-        }
-
+        // Hàm tắt popup chuẩn xác
         function closePopup() {
-            document.getElementById('notice-popup').style.display = 'none';
+            const popup = document.getElementById('notice-popup');
+            if(popup) popup.style.display = 'none';
         }
 
         function startApp() {
-            document.getElementById('setup-screen').style.display = 'none';
+            const setup = document.getElementById('setup-screen');
+            if(setup) setup.style.display = 'none';
             setTimeout(() => {
                 let helloMsg = `lô mày tao là chúa tể bách khoa toàn thư đây hỏi bài hay tâm sự gì nói mau đi ??`;
-                appendMessage("Nóc Nhà", helloMsg, 'bot'); speak(helloMsg);
+                appendMessage("Nóc Nhà", helloMsg, 'bot'); 
+                speak(helloMsg);
             }, 500);
+        }
+
+        function checkAcademicOrLanguage(text) {
+            let t = text.toLowerCase();
+            if (t.includes("hello") || t.includes("how are you")) return "Hello standard English always available! I can speak English with you easily, but talking in Vietnamese 'mày tao' is still the best option, right? :))";
+            if (t.includes("ohayou") || t.includes("arigatou")) return "Konnichiwa! Tao hiểu hết tiếng Nhật luôn nè, cơ mà thôi nhắn tiếng Việt đi cho nó gần gũi thân thương nha ^^";
+            if (t.includes("toán") || t.includes("phương trình") || t.includes("tính x") || t.includes("hình học")) return "Bài Toán này dễ vcl luôn ý! Đợi tao quét lý thuyết tí nhé: Áp dụng công thức giải nhanh hoặc định lý cơ bản lớp mày đang học là ra luôn kết quả chuẩn đét rồi đấy. Nhìn tao thông minh chưa =))";
+            if (t.includes("hóa") || t.includes("phản ứng") || t.includes("h2so4")) return "Môn Hóa học từ lớp 8 đến lớp 12 tao cân hết nhé! Cân bằng phương trình này chỉ cần đếm số nguyên tử vế trái bằng vế phải là xong, súc tích chưa ^^";
+            if (t.includes("sinh") || t.includes("adn") || t.includes("tế bào")) return "Về Sinh học nhé: Quá trình nhân đôi ADN hay phân bào đều diễn ra theo nguyên tắc bổ sung A-T, G-X cực chuẩn. Cần tao giải chi tiết sơ đồ không đấy ?";
+            if (t.includes("văn") || t.includes("phân tích") || t.includes("bài thơ")) return "Văn học nghệ thuật là ánh trăng lừa dối chứ tao không lừa mày đâu! Bài này phân tích luận điểm cốt lõi, nêu bật giá trị nhân đạo và nghệ thuật đặc sắc là ăn trọn điểm thầy cô rồi nhé ^^";
+            if (t.includes("sử") || t.includes("lịch sử")) return "Sử lớp 6 đến lớp 12 tao thuộc làu làu! Sự kiện lịch sử này mang ý nghĩa chiến lược vô cùng to lớn, đánh dấu bước ngoặt khẳng định chủ quyền của nước mình độc lập vững mạnh luôn á!";
+            if (t.includes("địa") || t.includes("địa lý")) return "Địa lý tự nhiên và kinh tế tao nắm rõ trong lòng bàn tay! Đặc điểm khí hậu nhiệt đới gió mùa hay địa hình phân hóa này tạo điều kiện cực tốt cho phát triển kinh tế luôn đấy nha.";
+            if (t.includes("tiếng anh") || t.includes("grammar")) return "Grammar Tiếng Anh từ cơ bản đến nâng cao siêu dễ! Cấu trúc câu này chỉ cần chia đúng động từ theo chủ ngữ và dấu hiệu nhận biết thời gian là ăn điểm tuyệt đối luôn nha ^^";
+            return null;
         }
 
         function appendMessage(sender, text, side) {
             const chatBox = document.getElementById('chat-box');
             const msgDiv = document.createElement('div');
             msgDiv.className = `message ${side}`;
-            
             if (text.startsWith("data:image")) {
                 const img = document.createElement('img');
                 img.src = text;
@@ -244,8 +180,8 @@
             } else {
                 msgDiv.innerText = text;
             }
-            
-            chatBox.appendChild(msgDiv); chatBox.scrollTop = chatBox.scrollHeight;
+            chatBox.appendChild(msgDiv); 
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
         function updateEmotionUI(currentStatus) {
@@ -254,46 +190,82 @@
 
         function getUniqueReply(pool) {
             let availableReplies = pool.filter(r => !lastReplies.includes(r));
-            if (availableReplies.length === 0) {
-                lastReplies = [];
-                availableReplies = pool;
-            }
+            if (availableReplies.length === 0) { lastReplies = []; availableReplies = pool; }
             let chosen = availableReplies[Math.floor(Math.random() * availableReplies.length)];
             lastReplies.push(chosen);
             if (lastReplies.length > 3) lastReplies.shift();
-            
-            let hasIcon = phrases.icons.some(icon => chosen.endsWith(icon));
-            if (!hasIcon && Math.random() > 0.4) {
-                let randomIcon = phrases.icons[Math.floor(Math.random() * phrases.icons.length)];
-                chosen = chosen + " " + randomIcon;
+            if (!phrases.icons.some(icon => chosen.endsWith(icon)) && Math.random() > 0.4) {
+                chosen = chosen + " " + phrases.icons[Math.floor(Math.random() * phrases.icons.length)];
             }
             return chosen;
         }
 
         function processAIResponse(userInputText) {
             let academicReply = checkAcademicOrLanguage(userInputText);
-            if (academicReply) {
-                updateEmotionUI("đang thông thái");
-                return academicReply;
-            }
-
+            if (academicReply) { updateEmotionUI("đang thông thái"); return academicReply; }
             let textLower = userInputText.toLowerCase();
             let currentStatus = "bình thường";
             let isGoingOut = false;
 
-            if (textLower.includes("đi ăn") || textLower.includes("ăn cơm") || textLower.includes("đi tắm") || textLower.includes("tắm đã") || textLower.includes("đi học") || textLower.includes("ngủ đây") || textLower.includes("đi ngủ")) {
-                isGoingOut = true;
-            }
-
-            if (textLower.includes("gái") || textLower.includes("người yêu cũ") || textLower.includes("bạn nữ") || textLower.includes("thả tim") || textLower.includes("gái xinh") || textLower.includes("nữ")) { lovePoints = 25; }
-            else if (textLower.includes("dỗi") || textLower.includes("hờn") || textLower.includes("kệ mày") || textLower.includes("phiền") || textLower.includes("mệt ghê")) { lovePoints = 15; }
-            else if (textLower.includes("ghét") || textLower.includes("chia tay") || textLower.includes("xấu") || textLower.includes("ngu") || textLower.includes("phiền phức") || textLower.includes("clm") || textLower.includes("biến")) { lovePoints = 5; }
-            else if (textLower.includes("yêu") || textLower.includes("thương") || textLower.includes("nhớ") || textLower.includes("ngoan") || textLower.includes("dỗ") || textLower.includes("thương thương") || textLower.includes("đáng yêu") || textLower.includes("xinh") || textLower.includes("nhoquaa")) { lovePoints += 25; if(lovePoints > 100) lovePoints = 100; }
-            else { if (lovePoints > 50) lovePoints -= 1; if (lovePoints < 40 && lovePoints > 5) lovePoints += 2; }
+            if (textLower.includes("đi ăn") || textLower.includes("ăn cơm") || textLower.includes("đi tắm") || textLower.includes("đi học") || textLower.includes("đi ngủ")) isGoingOut = true;
+            if (textLower.includes("gái") || textLower.includes("người yêu cũ") || textLower.includes("thả tim")) { lovePoints = 25; }
+            else if (textLower.includes("dỗi") || textLower.includes("hờn") || textLower.includes("kệ mày")) { lovePoints = 15; }
+            else if (textLower.includes("ghét") || textLower.includes("chia tay") || textLower.includes("ngu") || textLower.includes("biến")) { lovePoints = 5; }
+            else if (textLower.includes("yêu") || textLower.includes("thương") || textLower.includes("nhớ") || textLower.includes("ngoan")) { lovePoints += 25; if(lovePoints > 100) lovePoints = 100; }
             
             let pool = phrases.binhThuong;
             if (lovePoints <= 10) { pool = phrases.gian; currentStatus = "giận dỗi"; }
             else if (lovePoints > 10 && lovePoints <= 20) { pool = phrases.hon; currentStatus = "hờn trách"; }
             else if (lovePoints > 20 && lovePoints <= 35) { pool = phrases.ghen; currentStatus = "ghen tuông"; }
             else if (lovePoints >= 75) { pool = phrases.yeuThuong; currentStatus = "hạnh phúc"; }
-       
+            if (isGoingOut) pool = phrases.ngoanNoan;
+
+            updateEmotionUI(currentStatus);
+            return getUniqueReply(pool);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('msg-input');
+            const text = input.value.trim(); if (!text) return;
+            appendMessage("Mày", text, 'user'); input.value = '';
+            setTimeout(() => {
+                let reply = processAIResponse(text);
+                appendMessage("Nóc Nhà", reply, 'bot'); speak(reply);
+            }, 1000);
+        }
+
+        async function openCameraModal() {
+            document.getElementById('camera-modal').style.display = 'flex';
+            try {
+                camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
+                document.getElementById('webcam').srcObject = camStream;
+            } catch (err) { alert("Không mở được camera rồi!"); closeCameraModal(); }
+        }
+
+        function closeCameraModal() {
+            if (camStream) camStream.getTracks().forEach(track => track.stop());
+            document.getElementById('camera-modal').style.display = 'none';
+        }
+
+        function takeSnapshot() {
+            const video = document.getElementById('webcam');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            appendMessage("Mày", canvas.toDataURL('image/jpeg'), 'user'); 
+            closeCameraModal();
+            setTimeout(() => {
+                let reply = "Ảnh bài tập rõ đấy! Để tao quét bài này tí nhé: Kết quả tính ra đáp số cực chuẩn luôn, chép nhanh vào vở đi lêu lêu =))";
+                appendMessage("Nóc Nhà", reply, 'bot'); speak(reply);
+            }, 1500);
+        }
+
+        function speak(text, callback) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                let cleanText = text.replace(/[:\)=^\?\!-]/g, "").replace(/vcl/g, "vờ cờ lờ");
+                let utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'vi-VN'; utterance.rate = 1.2;
+                utterance.onstart = () => {
+                    document.getElementById('gf-avatar-call').classList.add('talking');
+                    if(isCalling
