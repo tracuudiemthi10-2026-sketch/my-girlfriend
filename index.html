@@ -37,8 +37,8 @@
     <header>
         <div>Nóc Nhà của Minh</div>
         <div class="btn-group">
-            <button onclick="startVoiceCall()">🎙️ Nói chuyện (Micro)</button>
-            <button onclick="startVideoCall()">📷 Call Video</button>
+            <button onclick="startVoiceCall()">🎤 liên tục  (sủa)</button>
+            <button onclick="startVideoCall()">📞 Call Video</button>
         </div>
     </header>
 
@@ -47,7 +47,7 @@
     </div>
 
     <div id="chat-box">
-        <div class="message bot">Chào Minh đằng ấy! Tớ đang lắng nghe đây, nói gì hoặc nhắn gì tớ cũng trả lời hết nha! 🥰</div>
+        <div class="message bot">m bt mhắn tin k hả nhắn thì dell rep</div>
     </div>
     
     <footer>
@@ -59,7 +59,7 @@
         <video id="bot-video-stream" loop playsinline muted></video>
         <video id="user-camera" autoplay playsinline muted></video>
         <div class="video-controls">
-            <p id="call-status">Đang FaceTime với em người yêu siêu cấp đáng yêu... 💖</p>
+            <p id="call-status">Đang FaceTime với em người yêu siêu cấp đáng yêu... </p>
             <button id="close-video" onclick="stopVideoCall()">Tắt Cuộc Gọi</button>
         </div>
     </div>
@@ -72,7 +72,7 @@
 
         async function askAI(userMessage) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-            const systemInstruction = "Bạn là người yêu ảo của một bạn nam tên là Minh (học sinh lớp 8 chuyên Toán, học giỏi). Hãy trả lời thật dễ thương, xưng hô tớ - cậu hoặc gọi Minh là anh, đôi khi hơi dỗi hờn, nũng nịu một chút, sử dụng tiếng Việt tự nhiên của học sinh.";
+            const systemInstruction = "Bạn là người yêu ảo của một bạn nam tên là Ngố (học sinh lớp 9 chuyên Toán, học giỏi). Hãy trả lời thật dễ thương, xưng hô mày - tao hoặc gọi nó là mày, đôi khi hơi dỗi hờn, nũng nịu một chút, sử dụng tiếng Việt Gen Z của học sinh.";
 
             const promptData = {
                 contents: [{ parts: [{ text: userMessage }] }],
@@ -89,7 +89,7 @@
                 return data.candidates[0].content.parts[0].text;
             } catch (error) {
                 console.error(error);
-                return "Cậu ơi, mạng bên tớ đang lag một chút, cậu nói lại được không?";
+                return "mày ơi, mạng bên tớ đang lag một chút, mày nói lại được không?";
             }
         }
 
