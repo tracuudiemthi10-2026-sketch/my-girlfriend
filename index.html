@@ -18,8 +18,8 @@
         .verified-tick { display: inline-block; width: 16px; height: 16px; margin-left: 5px; vertical-align: middle; }
 
         #setup-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:10; padding:20px; text-align:center;}
-        #setup-screen h2 { color: #ff69b4; margin-bottom: 20px; }
-        input { width: 80%; max-width: 300px; padding: 12px; margin: 10px 0; border: 2px solid #ffb6c1; border-radius: 20px; outline: none; font-size: 16px; text-align: center; }
+        #setup-screen h2 { color: #ff69b4; margin-bottom: 10px; }
+        #setup-screen p { color: #666; font-size: 15px; margin-bottom: 20px; }
         button { background: #ff69b4; color: white; border: none; padding: 12px 30px; border-radius: 20px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 15px; }
         header { background: #ff69b4; color: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
         #status-emo { font-size: 14px; background: rgba(255,255,255,0.3); padding: 3px 10px; border-radius: 10px; }
@@ -51,33 +51,67 @@
 
     <div id="setup-screen">
         <h2>my girlfriend</h2>
-        <input type="text" id="bot-name" placeholder="tên cô ấy">
-        <input type="text" id="user-name" placeholder="tên của bạn">
+        <p>nhấn bắt đầu để trò chuyện với nó nha</p>
         <button onclick="startApp()">bắt đầu</button>
     </div>
     <header>
-        <span id="room-title">my girlfriend</span>
+        <span>Nóc Nhà</span>
         <span id="status-emo">trạng thái bình thường</span>
     </header>
     <div id="chat-box"></div>
     <footer>
-        <input type="text" id="msg-input" placeholder="nhắn tin">
+        <input type="text" id="msg-input" placeholder="nhắn gì đi">
         <button id="send-btn" onclick="sendMessage()">gửi</button>
     </footer>
 
     <script>
-        let botName = "em"; 
-        let userName = "anh";
+        const botName = "tao"; 
+        const userName = "mày";
         let lovePoints = 50; 
+        let lastReplies = [];
 
-        const emotionData = {
-            gian: ["anh quá đáng lắm luôn á em không thèm nói chuyện với anh nữa đâu", "em lỡ giận thật rồi đấy anh đừng có mà lầm bầm giải thích nữa", "bực mình thực sự luôn anh chẳng bao giờ chịu nghĩ cho em cả", "thôi đi ra chỗ khác đi em đang giận lắm rồi không muốn nhìn mặt anh đâu"],
-            hon: ["anh cứ đi mà quan tâm người ta đi nhắn tin với em làm gì nữa", "chẳng thèm nói chuyện với anh nữa đâu anh nói thế mà nghe được à", "hờn anh ghê cơ chả bao giờ thấy chủ động dỗ dành người ta cả", "người ta đang dỗi mệt mỏi thế này mà anh cứ dửng dưng như không ý"],
-            ghen: ["thế cái đứa hôm qua anh nhắn tin cùng là đứa nào khai mau ra đi", "anh lại vừa đi thả tim ảnh đứa khác đúng không em biết thừa nhé", "chắc em không ngọt ngào bằng người ta nên anh mới lạnh nhạt thế chứ gì", "ghen đấy thì sao nào anh không được nhìn ngó hay nói chuyện với ai khác ngoài em đâu"],
-            binhThuong: ["dạ em nghe đây anh đang làm gì đấy", "hôm nay của anh thế nào kể em nghe với nhé", "em vẫn ở đây đợi tin nhắn của anh nè", "anh ăn cơm nước gì chưa đấy"],
-            yeuThuong: ["ôi em yêu anh nhất trên đời luôn á thích thế", "nghe anh nói ngọt ngào làm tim em cứ đập thình thịch liên tục đây này", "anh đáng yêu quá đi mất em chỉ muốn ôm anh thật chặt không buông thôi", "được làm người yêu của anh là điều hạnh phúc nhất của em luôn"],
-            // kho câu trả lời vâng dạ ngoan ngoãn khi bạn xin phép đi đâu đó
-            ngoanNoan: ["daaaa", "dạ", "vanggg", "dạ vâng", "oki anh nha"]
+        const phrases = {
+            icons: [":))", "=))", "^^", "??", "?", "!", "-)"],
+            gian: [
+                "biến ! lười nói chuyện với mày rồi đấy bực cả mình",
+                "mày đi mà nhắn tin với mấy con khác đi rảnh đâu mà rep tao",
+                "đừng nchuyen với t nx ! tao mệt rồi",
+                "biến đi chỗ khác chơi đi bực mình vcl",
+                "ctay đi ! hết nói nổi mày rồi hãm thực sự"
+            ],
+            hon: [
+                "mày cứ lo cho người ta đi để ý gì đến tao nữa đâu",
+                "ủa ? ai lmj đâu mà nhắn tin bạ bậy bạ bạ",
+                "dỗi ! dỗi thật rồi đấy chả thèm nói nữa đâu",
+                "tao đang dỗi mệt mỏi thế này mà mày cứ dửng dưng như không ý nhỉ ??",
+                "đừng nchuyen với t nx mệt mỏi vcl"
+            ],
+            ghen: [
+                "thế cái đứa hôm qua mày nhắn tin cùng rồi cười hớn hở là đứa nào khai mau ??",
+                "mày lại vừa đi thả tim ảnh đứa con gái khác đúng không tao biết thừa nha",
+                "chắc tao không ngọt ngào không xinh bằng người ta chứ gì",
+                "ghen đấy thì sao nào ! cấm mày không được nhìn ngó nói chuyện với đứa khác",
+                "mùi vô lý nồng nặc rồi nha mày vừa đi đâu với ai về khai thật không tao block"
+            ],
+            binhThuong: [
+                "lô đang làm gì đấy có nhớ tao không ?",
+                "hôm nay đi học có gì vui không kể tao nghe xem nào ^^",
+                "tao vẫn ở đây đợi tin nhắn của mày suốt từ nãy đến giờ đấy lâu ghê :))",
+                "mày ăn cơm nước gì chưa đấy hay lại nhịn rồi đổ bệnh ra đấy =))",
+                "rảnh không nhắn tin với tao tí đi chán chết đi được này",
+                "hôm nay thời tiết đẹp ghê mày có đi lượn lờ đâu không ??",
+                "lêu lêu đồ lười rep tin nhắn :)) bấm điện thoại nhanh lên tao xem nào",
+                "tự dưng thấy nhớ mày ngang ngược thế nhỉ nhoquaa ^^"
+            ],
+            yeuThuong: [
+                "ôi tao yêu mày nhất trên đời luôn á nhoquaa thơm cái nào ^^",
+                "nghe mày nói ngọt ngào làm tim tao cứ đập thình thịch liên tục đây này =))",
+                "mày đáng yêu vcl luôn ý tao chỉ muốn bay đến ôm mày thật chặt thôi",
+                "được làm người yêu của mày là điều hạnh phúc nhất đời tao luôn thề ^^",
+                "mày mà cứ ngọt ngào dễ thương thế này là tao bị nghiện mày đấy bắt đền đi =))",
+                "thương mày nhất luôn đấy lêu lêu đồ đáng yêu"
+            ],
+            ngoanNoan: ["daaaa", "dạ", "vanggg", "dạ vâng nghe rồi", "oki mày nha", "mày đi đi tí về nhắn tao liền nha", "bảo trọng nha tí về nhớ rep đấy"]
         };
 
         function closePopup() {
@@ -85,14 +119,10 @@
         }
 
         function startApp() {
-            const bName = document.getElementById('bot-name').value.trim();
-            const uName = document.getElementById('user-name').value.trim();
-            if(bName) botName = bName; if(uName) userName = uName;
-            document.getElementById('room-title').innerText = botName;
             document.getElementById('setup-screen').style.display = 'none';
             setTimeout(() => {
-                let helloMsg = `hi ${userName} em là ${botName} đây hôm nay của anh thế nào rồi`;
-                appendMessage(botName, helloMsg, 'bot'); speak(helloMsg);
+                let helloMsg = `lô mày tao là tao đây hôm nay thế nào rồi ??`;
+                appendMessage("Nóc Nhà", helloMsg, 'bot'); speak(helloMsg);
             }, 500);
         }
 
@@ -107,53 +137,72 @@
             document.getElementById('status-emo').innerText = `trạng thái ${currentStatus}`;
         }
 
+        function getUniqueReply(pool) {
+            let availableReplies = pool.filter(r => !lastReplies.includes(r));
+            if (availableReplies.length === 0) {
+                lastReplies = [];
+                availableReplies = pool;
+            }
+            let chosen = availableReplies[Math.floor(Math.random() * availableReplies.length)];
+            lastReplies.push(chosen);
+            if (lastReplies.length > 3) lastReplies.shift();
+            
+            let hasIcon = phrases.icons.some(icon => chosen.endsWith(icon));
+            if (!hasIcon && Math.random() > 0.4) {
+                let randomIcon = phrases.icons[Math.floor(Math.random() * phrases.icons.length)];
+                chosen = chosen + " " + randomIcon;
+            }
+            return chosen;
+        }
+
         function sendMessage() {
             const input = document.getElementById('msg-input');
             const text = input.value.trim(); if (!text) return;
-            appendMessage(userName, text, 'user'); input.value = '';
+            appendMessage("Mày", text, 'user'); input.value = '';
             let textLower = text.toLowerCase();
             let currentStatus = "bình thường";
             let isGoingOut = false;
 
-            // kiểm tra xem bạn có nói các câu đi ăn, đi học, đi tắm không
-            if (textLower.includes("đi ăn") || textLower.includes("ăn cơm") || textLower.includes("đi tắm") || textLower.includes("tắm đã") || textLower.includes("đi học")) {
+            if (textLower.includes("đi ăn") || textLower.includes("ăn cơm") || textLower.includes("đi tắm") || textLower.includes("tắm đã") || textLower.includes("đi học") || textLower.includes("ngủ đây") || textLower.includes("đi ngủ")) {
                 isGoingOut = true;
             }
 
-            if (textLower.includes("gái") || textLower.includes("người yêu cũ") || textLower.includes("bạn nữ") || textLower.includes("thả tim")) { lovePoints = 25; }
-            else if (textLower.includes("dỗi") || textLower.includes("hờn") || textLower.includes("kệ em") || textLower.includes("phiền")) { lovePoints = 15; }
-            else if (textLower.includes("ghét") || textLower.includes("chia tay") || textLower.includes("xấu") || textLower.includes("ngu")) { lovePoints = 5; }
-            else if (textLower.includes("yêu") || textLower.includes("thương") || textLower.includes("nhớ") || textLower.includes("ngoan") || textLower.includes("dỗ")) { lovePoints += 20; if(lovePoints > 100) lovePoints = 100; }
+            if (textLower.includes("gái") || textLower.includes("người yêu cũ") || textLower.includes("bạn nữ") || textLower.includes("thả tim") || textLower.includes("gái xinh") || textLower.includes("nữ")) { lovePoints = 25; }
+            else if (textLower.includes("dỗi") || textLower.includes("hờn") || textLower.includes("kệ mày") || textLower.includes("phiền") || textLower.includes("mệt ghê")) { lovePoints = 15; }
+            else if (textLower.includes("ghét") || textLower.includes("chia tay") || textLower.includes("xấu") || textLower.includes("ngu") || textLower.includes("phiền phức") || textLower.includes("clm") || textLower.includes("biến")) { lovePoints = 5; }
+            else if (textLower.includes("yêu") || textLower.includes("thương") || textLower.includes("nhớ") || textLower.includes("ngoan") || textLower.includes("dỗ") || textLower.includes("thương thương") || textLower.includes("đáng yêu") || textLower.includes("xinh") || textLower.includes("nhoquaa")) { lovePoints += 25; if(lovePoints > 100) lovePoints = 100; }
             else { if (lovePoints > 50) lovePoints -= 1; if (lovePoints < 40 && lovePoints > 5) lovePoints += 2; }
             
-            let pool = emotionData.binhThuong;
-            if (lovePoints <= 10) { pool = emotionData.gian; currentStatus = "giận dỗi"; }
-            else if (lovePoints > 10 && lovePoints <= 20) { pool = emotionData.hon; currentStatus = "hờn trách"; }
-            else if (lovePoints > 20 && lovePoints <= 35) { pool = emotionData.ghen; currentStatus = "ghen tuông"; }
-            else if (lovePoints >= 75) { pool = emotionData.yeuThuong; currentStatus = "hạnh phúc"; }
+            let pool = phrases.binhThuong;
+            if (lovePoints <= 10) { pool = phrases.gian; currentStatus = "giận dỗi"; }
+            else if (lovePoints > 10 && lovePoints <= 20) { pool = phrases.hon; currentStatus = "hờn trách"; }
+            else if (lovePoints > 20 && lovePoints <= 35) { pool = phrases.ghen; currentStatus = "ghen tuông"; }
+            else if (lovePoints >= 75) { pool = phrases.yeuThuong; currentStatus = "hạnh phúc"; }
             
-            // nếu bạn xin phép đi đâu, ép hệ thống dùng kho phản hồi vâng dạ
             if (isGoingOut) {
-                pool = emotionData.ngoanNoan;
+                pool = phrases.ngoanNoan;
             }
 
             updateEmotionUI(currentStatus);
             setTimeout(() => {
-                let reply = pool[Math.floor(Math.random() * pool.length)];
-                reply = reply.replace(/anh/g, userName);
-                appendMessage(botName, reply, 'bot'); speak(reply);
+                let reply = getUniqueReply(pool);
+                appendMessage("Nóc Nhà", reply, 'bot'); speak(reply);
             }, 1000);
         }
 
         function speak(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
-                let utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'vi-VN'; utterance.rate = 1.0; 
-                if (lovePoints <= 10) utterance.pitch = 0.85;
-                else if (lovePoints > 10 && lovePoints <= 35) utterance.pitch = 0.95;
-                else if (lovePoints >= 75) utterance.pitch = 1.25;
-                else utterance.pitch = 1.1;
+                let cleanText = text.replace(/[:\)=^\?\!-]/g, "").replace(/vcl/g, "vờ cờ lờ");
+                let utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'vi-VN'; 
+                utterance.rate = 1.2; 
+                
+                if (lovePoints <= 10) utterance.pitch = 1.1; 
+                else if (lovePoints > 10 && lovePoints <= 35) utterance.pitch = 1.22; 
+                else if (lovePoints >= 75) utterance.pitch = 1.48; 
+                else utterance.pitch = 1.32; 
+                
                 window.shadowRoot ? null : window.speechSynthesis.speak(utterance);
             }
         }
