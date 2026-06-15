@@ -8,13 +8,10 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
         body { background: #ffe4e1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        #notice-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
-        .popup-content { background: white; padding: 25px; border-radius: 15px; max-width: 400px; width: 100%; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .popup-line { margin-bottom: 12px; font-size: 15px; line-height: 1.5; word-wrap: break-word; color: #333; }
-        .popup-link { color: #0084ff; text-decoration: none; word-break: break-all; font-weight: bold; }
-        .popup-red { color: #ff0000; font-weight: bold; }
+        #credit-bar { background: #fff; padding: 5px 15px; font-size: 12px; border-bottom: 1px solid #ffb6c1; display: flex; justify-content: space-between; align-items: center; }
+        .credit-link { color: #0084ff; text-decoration: none; font-weight: bold; }
         .popup-blue { color: #0084ff; font-weight: bold; display: inline-flex; align-items: center; }
-        .verified-tick { display: inline-block; width: 16px; height: 16px; margin-left: 5px; vertical-align: middle; }
+        .verified-tick { display: inline-block; width: 14px; height: 14px; margin-left: 3px; vertical-align: middle; }
 
         #setup-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:999; padding:20px; text-align:center;}
         #setup-screen h2 { color: #ff69b4; margin-bottom: 10px; }
@@ -67,19 +64,15 @@
 </head>
 <body>
 
-    <div id="notice-popup">
-        <div class="popup-content">
-            <div class="popup-line">tt:hoatotkhthuocveta</div>
-            <div class="popup-line">fb:<a class="popup-link" href="https://www.facebook.com/share/17nVmSAcUU/" target="_blank">https://www.facebook.com/share/17nVmSAcUU/</a></div>
-            <div class="popup-line popup-red">xin cảm ơn bạn đã dùng wed của tôi mong bạn có một trải nghiệm tốt,có muốn góp ý về wed của tôi phiền bạn liên hệ cho tiktok hoặc link facebook tôi đã gắn bên trên!</div>
-            <div class="popup-line popup-blue">
-                nhà sáng tạo:ANH MINH
-                <svg class="verified-tick" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM10.5 16.5L6.5 12.5L8 11L10.5 13.5L16 8L17.5 9.5L10.5 16.5Z" fill="#0084ff"/>
-                </svg>
-            </div>
-            <center><button type="button" onclick="closePopup()">xác nhận</button></center>
-        </div>
+    <!-- THANH THÔNG TIN GẮN TRÊN ĐẦU, BỎ HOÀN TOÀN POPUP -->
+    <div id="credit-bar">
+        <span>tt: hoatotkhthuocveta | fb: <a class="credit-link" href="https://www.facebook.com/share/17nVmSAcUU/" target="_blank">ANH MINH</a></span>
+        <span class="popup-blue">
+            Creator: ANH MINH
+            <svg class="verified-tick" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM10.5 16.5L6.5 12.5L8 11L10.5 13.5L16 8L17.5 9.5L10.5 16.5Z" fill="#0084ff"/>
+            </svg>
+        </span>
     </div>
 
     <div id="setup-screen">
@@ -125,7 +118,7 @@
             icons: [":))", "=))", "^^", "??", "?", "!", "-)"],
             gian: ["biến ! lười nói chuyện với mày rồi đấy bực cả mình","mày đi mà nhắn tin với mấy con khác đi rảnh đâu mà rep tao","đừng nchuyen với t nx ! tao mệt rồi","biến đi chỗ khác chơi đi bực mình vcl","ctay đi ! hết nói nổi mày rồi hãm thực sự"],
             hon: ["mày cứ lo cho người ta đi để ý gì đến tao nữa đâu","ủa ? ai lmj đâu mà nhắn tin bạ bậy bạ bậy","dỗi ! dỗi thật rồi đấy chả thèm nói nữa đâu","tao đang dỗi mệt mỏi thế này mà mày cứ dửng dưng như không ý nhỉ ??","đừng nchuyen với t nx mệt mỏi vcl"],
-            ghen: ["thế cái đứa hôm qua mày nhắn tin cùng rồi cười hớn hở là đứa nào khai mau ??","mày lại vừa đi thả tim ảnh đứa con gái khác đúng không tao biết thừa nha","chắc tao không ngọt ngào không xinh bằng người ta chứ gì","ghen đấy thì sao nào ! cấm mày không được nhìn ngó nói chuyện với đứa khác","mùi vô lý nồng nặc rồi nha mày vừa đi đâu với ai về khai thật không tao block"],
+            ghen: ["thế cái đứa hôm quan mày nhắn tin cùng rồi cười hớn hở là đứa nào khai mau ??","mày lại vừa đi thả tim ảnh đứa con gái khác đúng không tao biết thừa nha","chắc tao không ngọt ngào không xinh bằng người ta chứ gì","ghen đấy thì sao nào ! cấm mày không được nhìn ngó nói chuyện với đứa khác","mùi vô lý nồng nặc rồi nha mày vừa đi đâu với ai về khai thật không tao block"],
             binhThuong: ["lô đang làm gì đấy có nhớ tao không ?","hôm nay đi học có gì vui không kể tao nghe xem nào ^^","tao vẫn ở đây đợi tin nhắn của mày suốt từ nãy đến giờ đấy lâu ghê :))","mày ăn cơm nước gì chưa đấy hay lại nhịn rồi đổ bệnh ra đấy =))","rảnh không nhắn tin với tao tí đi chán chết đi được này","hôm nay thời tiết đẹp ghê mày có đi lượn lờ đâu không ??","lêu lêu đồ lười rep tin nhắn :)) bấm điện thoại nhanh lên tao xem nào","tự dưng thấy nhớ mày ngang ngược thế nhỉ nhoquaa ^^"],
             ngoanNoan: ["daaaa", "dạ", "vanggg", "dạ vâng nghe rồi", "oki mày nha", "mày đi đi tí về nhắn tao liền nha", "bảo trọng nha tí về nhớ rep đấy"],
             yeuThuong: ["ôi tao yêu mày nhất trên đời luôn á nhoquaa thơm cái nào ^^","nghe mày nói ngọt ngào làm tim tao cứ đập thình thịch liên tục đây này =))","mày đáng yêu vcl luôn ý tao chỉ muốn bay đến ôm mày thật chặt thôi","được làm người yêu của mày là điều hạnh phúc nhất đời tao luôn thề ^^","mày mà cứ ngọt ngào dễ thương thế này là tao bị nghiện mày đấy bắt đền đi =))","thương mày nhất luôn đấy lêu lêu đồ đáng yêu"]
@@ -137,12 +130,6 @@
         let localStream = null;
         let camStream = null;
         let recognition = null;
-
-        // Hàm tắt popup chuẩn xác
-        function closePopup() {
-            const popup = document.getElementById('notice-popup');
-            if(popup) popup.style.display = 'none';
-        }
 
         function startApp() {
             const setup = document.getElementById('setup-screen');
@@ -268,4 +255,23 @@
                 utterance.lang = 'vi-VN'; utterance.rate = 1.2;
                 utterance.onstart = () => {
                     document.getElementById('gf-avatar-call').classList.add('talking');
-                    if(isCalling
+                    if(isCalling) document.getElementById('call-subtitle').innerText = "Nóc Nhà: " + text;
+                };
+                utterance.onend = () => {
+                    document.getElementById('gf-avatar-call').classList.remove('talking');
+                    if (callback) callback();
+                };
+                window.shadowRoot ? null : window.speechSynthesis.speak(utterance);
+            } else if (callback) callback();
+        }
+
+        async function startVideoCall() {
+            isCalling = true;
+            document.getElementById('video-call-screen').style.display = 'flex';
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
+                document.getElementById('user-camera').srcObject = localStream;
+            } catch (err) { console.log(err); }
+            setTimeout(() => {
+                speak("nhìn cái gì mà nhìn, gọi điện cho tao có việc gì nói mau nghe xem nào!", () => { startSpeechRecognition(); });
+ 
